@@ -8,17 +8,36 @@
 pushd /build/dist >/dev/null
 
 # Import GPG signing key
-gpg2 --import <<__EOF__
+gpg --import <<__EOF__
 ${GPG_KEY}
 __EOF__
 
-# Check if this is a repository; if not, warn and ask to create one.
+#TODO Check if this is a repository; if not, warn and ask to create one.
 
 ###############################################################################
 # Create repository index
 ###############################################################################
-dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
-#TODO: This should be rewritten to create a real repository with signing.
+
+mkdir -p pool/conf
+
+cp /build/dist_all_ro/connect/*.deb /build/dist_all_ro/requirements/*.deb .
+dpkg-sig --sign builder *.deb
+
+cat <<'__EOF__' > pool/conf/distributions
+Origin: pool.openhsr.ch
+Label: openHSR Ubuntu Xenial Pool
+Suite: xernial
+Codename: xenial
+Version: 16.04
+Architectures: i386 amd64 source
+Components: main
+Description: openHSR Ubuntu Xenial Pool
+SignWith: Yes
+__EOF__
+
+reprepro -Vb pool export
+#bash
+find . -maxdepth 1 -name '*.deb' | xargs reprepro -Vb pool includedeb xenial
 
 # Fine.
 popd >/dev/null

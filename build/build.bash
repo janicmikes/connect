@@ -144,7 +144,7 @@ if [ $MODE == "repository" ] || [ $MODE == "all" ]; then
   ${DOCKER_RUN} --name "openhsr-connect-${DIST}-${DIST_VERSION}-${ARCH}-connect" \
     --volume=${BUILDROOT}:/build/connect \
     --volume=${REP_BUILDDEST}:/build/dist \
-    --volume=${BUILDDEST}:/build/dist_all_ro:ro \
+    --volume=${BUILDDEST}/${DIST}/${DIST_VERSION}:/build/dist_all_ro:ro \
     --env ARCH --env GPG_KEY \
     --env DOCKER_UID --env DOCKER_GID \
     openhsr/openhsr-connect-${DIST}-${DIST_VERSION}-${ARCH} \

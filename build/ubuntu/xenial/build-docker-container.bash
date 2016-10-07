@@ -8,7 +8,7 @@
 apt-get update
 
 if [[ $ARCH == "x86_64" ]]; then
-  # FPM
+  # FPM / PRM
   apt-get install -y ruby ruby-dev build-essential libgmp-dev
   gem install fpm
   
@@ -16,7 +16,7 @@ if [[ $ARCH == "x86_64" ]]; then
   apt-get install -y python3 python3-pip python3-pkg-resources
 
   # Aptly
-  apt-get install -y aptly dpkg-dev gnupg2
+ apt-get install -y dpkg-dev dpkg-sig reprepro
 fi
 
 if [[ $ARCH == "i386" ]]; then
