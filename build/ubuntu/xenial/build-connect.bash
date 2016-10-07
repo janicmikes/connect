@@ -10,8 +10,8 @@ INSTALL_SCRIPT_PATH="/build/connect/build/ubuntu/xenial"
 
 if [[ $ARCH == "x86_64" ]]; then
   ${FPM_DEFAULTS}  ${FPM_DEB} ${FPM_DEFAULTS_CONNECT} \
-     --after-install ${INSTALL_SCRIPT_PATH}/connect-postinstall.sh \
-     --before-remove ${INSTALL_SCRIPT_PATH}/connect-preremove.sh \
+     --after-install ${INSTALL_SCRIPT_PATH}/connect-after-install.sh \
+     --before-remove ${INSTALL_SCRIPT_PATH}/connect-before-remove.sh \
     connect/setup.py
 fi
 

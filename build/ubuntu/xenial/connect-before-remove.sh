@@ -1,14 +1,16 @@
 #!/bin/bash
+set -e
+
 PACKAGE_PATH="/usr/local/lib/python3.5/dist-packages/openhsr_connect"
 BACKEND_SCRIPT="/usr/lib/cups/backend/openhsr-connect"
 
-if [ -f ${BACKEND_SCRIPT} ]; then
-	rm ${BACKEND_SCRIPT}
+# Remove printer if installed
+if [ lpstat -a openhsr-connect 2&> /dev/null]; then
+    echo "Removing printer openhsr-connect..."
+    lpadmin -x openhsr-connect
 fi
 
-# Remove printer if installed
-lpstat -a openhsr-connect 2&> /dev/null
-if [ $? -eq 0 ]; then
-    echo "Removing printer openhsr-connect"
-    lpadmin -x openhsr-connect
+# Remove printing symlink
+if [ -e ${BACKEND_SCRIPT} ]; then
+	rm ${BACKEND_SCRIPT}
 fi
